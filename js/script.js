@@ -216,3 +216,63 @@ document.addEventListener("mousemove", (e) => {
     glow.style.left = e.clientX + "px";
     glow.style.top = e.clientY + "px";
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* --- 1. HANDLING LOGIKA KLIK JAWABAN QUIZ --- */
+    const optionButtons = document.querySelectorAll(".option-btn");
+    const btnSubmitQuiz = document.getElementById("btnSubmitQuiz");
+
+    optionButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            // Bersihkan status seleksi dari semua opsi
+            optionButtons.forEach(btn => btn.classList.remove("selected"));
+            
+            // Aktifkan opsi yang dipilih oleh user
+            this.classList.add("selected");
+            
+            // Aktifkan tombol submit karena jawaban telah dimasukkan
+            if(btnSubmitQuiz) {
+                btnSubmitQuiz.disabled = false;
+                // Beri efek transisi pulsa kilat saat pertama kali aktif
+                btnSubmitQuiz.style.animation = "none";
+                setTimeout(() => {
+                    btnSubmitQuiz.style.animation = "pulse-glow 2s infinite";
+                }, 10);
+            }
+        });
+    });
+
+    /* --- 2. COUNTDOWN TIMER SIMULASI OKSIGEN TERSISA --- */
+    const timerElement = document.getElementById("countdown");
+    if(timerElement) {
+        let timeParts = timerElement.innerText.split(":");
+        let totalSeconds = (parseInt(timeParts[0]) * 60) + parseInt(timeParts[1]);
+
+        const interval = setInterval(() => {
+            if (totalSeconds <= 0) {
+                clearInterval(interval);
+                timerElement.innerText = "00:00";
+                alert("Peringatan: Oksigen habis!");
+                return;
+            }
+            totalSeconds--;
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = totalSeconds % 60;
+            
+            // Format waktu menjadi MM:SS
+            timerElement.innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    /* --- 3. SUBMIT ACTION BUTTON --- */
+    if (btnSubmitQuiz) {
+        btnSubmitQuiz.addEventListener("click", function() {
+            const selectedAnswer = document.querySelector(".option-btn.selected");
+            const answerLetter = selectedAnswer ? selectedAnswer.getAttribute("data-option") : "";
+            
+            alert(`Jawaban ${answerLetter} terverifikasi. Membuka kompartemen data kedalaman berikutnya...`);
+        });
+    }
+});
