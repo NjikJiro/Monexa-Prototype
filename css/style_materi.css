@@ -1,0 +1,93 @@
+/* --- LEVEL SCREEN SPECIFIC STYLES --- */
+.level-unlock-screen {
+    min-height: 100vh;
+    width: 100vw;
+    /* Ganti 'assets/Materi.jpg' dengan path file aset background Anda */
+    background: radial-gradient(circle at 50% 15%, rgba(2, 7, 18, 0.2) 0%, rgba(1, 4, 10, 0.85) 90%), 
+                url('../assets/materi-bg.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Zone Indicator (Kiri Atas) */
+.zone-indicator {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.text-cyan {
+    color: #00f0ff !important;
+}
+
+/* Glowing Center Icon (Matahari/Cahaya) */
+.icon-glow-circle {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #00f0ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00f0ff;
+    font-size: 1.8rem;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.2);
+    background: rgba(2, 7, 18, 0.4);
+    animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* Typography */
+.level-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: calc(1.3rem + 1.2vw);
+    letter-spacing: 1px;
+}
+
+.text-glow {
+    text-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+.level-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    max-width: 650px;
+    font-weight: 400;
+    color: #e2e8f0 !important;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+/* Tombol Continue (Kanan Bawah) */
+.btn-continue {
+    background-color: #00c8f0;
+    color: #01040a;
+    border: none;
+    border-radius: 4px; /* Sudut kotak lancip tipis sesuai gambar */
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(0, 200, 240, 0.2);
+    transition: all 0.25s ease;
+}
+
+.btn-continue:hover {
+    background-color: #00f0ff;
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    transform: scale(1.03);
+    color: #01040a;
+}
+
+.fw-extrabold {
+    font-weight: 800;
+}
+
+/* Animasi pendaran denyut halus pada ikon tengah */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3), inset 0 0 10px rgba(0, 240, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.7), inset 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+}
