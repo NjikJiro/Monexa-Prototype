@@ -276,3 +276,98 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    
+    /* --- 1. TERMINAL MOUSE MESH GLOW --- */
+    const glow = document.getElementById("mouseGlow");
+    if(glow) {
+        document.addEventListener("mousemove", (e) => {
+            glow.style.left = e.clientX + "px";
+            glow.style.top = e.clientY + "px";
+        });
+    }
+
+    /* --- 2. CLOCK SUBTERRANEAN OVERLAY --- */
+    const clockElement = document.getElementById("liveClock");
+    setInterval(() => {
+        const now = new Date();
+        if(clockElement) {
+            clockElement.innerText = now.toTimeString().split(' ')[0];
+        }
+    }, 1000);
+
+    /* --- 3. DYNAMIC CANDLESTICK CHART GRAPHICS --- */
+    const ctx = document.getElementById('tradingChart').getContext('2d');
+    
+    // Data tiruan awal (mirip pergerakan candlestick hijau & merah di gambar asli)
+    const initialLabels = Array.from({length: 30}, (_, i) => `T-${30 - i}`);
+    const initialData = [18, 22, 19, 25, 28, 24, 22, 29, 34, 31, 35, 42, 38, 45, 49, 42, 46, 52, 58, 52, 64, 61, 72, 68, 65, 74, 78, 70, 75, 71];
+
+    // Konfigurasi Gradasi Warna Chart Line Area
+    const cyanGradient = ctx.createLinearGradient(0, 0, 0, 320);
+    cyanGradient.addColorStop(0, 'rgba(0, 240, 255, 0.15)');
+    cyanGradient.addColorStop(1, 'rgba(0, 240, 255, 0.00)');
+
+    const tradingChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: initialLabels,
+            datasets: [{
+                label: 'Market Valuation',
+                data: initialData,
+                borderColor: '#00f0ff',
+                borderWidth: 2,
+                pointRadius: 0, // Sembunyikan titik node data agar terlihat mulus
+                lineTension: 0.2, // Sudut pergerakan grafik dinamis
+                fill: true,
+                backgroundColor: cyanGradient
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false } // Sembunyikan legend default bawaan chart
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.02)' },
+                    ticks: { color: '#475569', font: { size: 9, family: 'Orbitron' } }
+                },
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                    ticks: { color: '#475569', font: { size: 9, family: 'Orbitron' } }
+                }
+            },
+            animations: {
+                y: {
+                    duration: 1000,
+                    easing: 'easeInOutCubic'
+                }
+            }
+        }
+    });
+
+    /* --- 4. REAL-TIME DATA TICK TICKER SIMULATION --- */
+    // Membuat grafik terkesan aktif bergerak naik-turun secara periodik
+    setInterval(() => {
+        let lastValue = tradingChart.data.datasets[0].data[tradingChart.data.datasets[0].data.length - 1];
+        // Variasi pergeseran harga acak -3 sampai +4
+        let change = Math.floor(Math.random() * 8) - 3; 
+        let newValue = Math.max(10, lastValue + change);
+
+        // Tambah data baru, buang data paling lawas
+        tradingChart.data.datasets[0].data.push(newValue);
+        tradingChart.data.datasets[0].data.shift();
+        tradingChart.update('none'); // Update instan tanpa merusak transisi scroll awal
+    }, 3000);
+
+    /* --- 5. EXECUTION CONFIRMATIONS ACTION --- */
+    document.querySelectorAll(".btn-trade-action").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const side = this.classList.contains("buy-btn") ? "LONG (BELI)" : "SHORT (JUAL)";
+            alert(`SINKRONISASI BURSA: Perintah ${side} berhasil diproses melalui Monexa Node Broker.`);
+        });
+    });
+});
